@@ -26,7 +26,6 @@ namespace Deserters.Patches
             yield return new CodeInstruction(OpCodes.Ldarg_1);
             yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Helper), nameof(Helper.IsDeserterParty), new Type[] { typeof(MobileParty) }));
             yield return new CodeInstruction(OpCodes.Brtrue, jumpLabel);
-            yield return new CodeInstruction(OpCodes.Ret);
             foreach (var instruction in instructions)
             {
                 yield return instruction;

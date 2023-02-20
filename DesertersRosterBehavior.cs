@@ -20,7 +20,9 @@ namespace Deserters
         private int _currentNoDeserterParties = 0;
 
         private static TroopRoster _desertedTroops = TroopRoster.CreateDummyTroopRoster();
-        private static int _nextRandomizedTroopNumber = MBRandom.RandomInt(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize);
+        private static int _nextRandomizedTroopNumber = MBRandom.RandomInt(
+                MathF.Min(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize),
+                MathF.Max(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize));
         public static int ChangeTotalSizeLimitIfDeserters(PartyBase party)
         {
             if (party.IsDeserterParty())
@@ -92,7 +94,9 @@ namespace Deserters
             if (_currentNoDeserterParties >= Settings.Instance.MaxNumberOfDeserterParties) _desertedTroops = TroopRoster.CreateDummyTroopRoster();
             if (_desertedTroops.TotalManCount >= _nextRandomizedTroopNumber)
             {
-                _nextRandomizedTroopNumber = MBRandom.RandomInt(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize);
+                _nextRandomizedTroopNumber = MBRandom.RandomInt(
+                MathF.Min(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize),
+                MathF.Max(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize));
 
                 IEnumerable<Hideout> infestedHideouts = Hideout.All.WhereQ((Hideout h) => h.IsInfested);
                 if (!infestedHideouts.Any()) return;
