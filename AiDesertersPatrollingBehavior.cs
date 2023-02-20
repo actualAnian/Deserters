@@ -28,7 +28,7 @@ namespace Deserters
             {
                 if (mobileParty.Party == null || !mobileParty.IsDeserterParty()) return;
 
-                if (mobileParty.MapFaction.Culture.CanHaveSettlement && (mobileParty.Ai.NeedTargetReset || (mobileParty.HomeSettlement.IsHideout && !mobileParty.HomeSettlement.Hideout.IsInfested)))
+                if (mobileParty.MapFaction.Culture.CanHaveSettlement && (mobileParty.NeedTargetReset || (mobileParty.HomeSettlement.IsHideout && !mobileParty.HomeSettlement.Hideout.IsInfested)))
                 {
                     Settlement settlement = SettlementHelper.FindNearestHideout(null, null);
                     if (settlement != null)
@@ -38,7 +38,7 @@ namespace Deserters
                 }
 
                 AIBehaviorTuple item;
-                ValueTuple<AIBehaviorTuple, float> valueTuple;
+                //ValueTuple<AIBehaviorTuple, float> valueTuple;
 
 
             string DesertersID = mobileParty.Party.Id;
@@ -57,16 +57,16 @@ namespace Deserters
                     if(nextSettlementToPatrol != null)
                     {
                         item = new AIBehaviorTuple(nextSettlementToPatrol, AiBehavior.PatrolAroundPoint, false);
-                        valueTuple = new ValueTuple<AIBehaviorTuple, float>(item, 0.3f);
-                        p.AddBehaviorScore(valueTuple);
+                        //valueTuple = new ValueTuple<AIBehaviorTuple, float>(item, 0.3f);
+                        p.AIBehaviorScores.Add(item, 0.3f);
                         ++hoursSincelastDecision[DesertersID];
                         return;
                     }
                 }
                 Settlement patrolSettlement = mobileParty.TargetSettlement ?? mobileParty.HomeSettlement;
                 item = new AIBehaviorTuple(patrolSettlement, AiBehavior.PatrolAroundPoint, false);
-                valueTuple = new ValueTuple<AIBehaviorTuple, float>(item, 0.3f);
-                p.AddBehaviorScore(valueTuple);
+                //valueTuple = new ValueTuple<AIBehaviorTuple, float>(item, 0.3f);
+                p.AIBehaviorScores.Add(item, 0.3f);
                 ++hoursSincelastDecision[DesertersID];
             }
             public override void SyncData(IDataStore dataStore)
