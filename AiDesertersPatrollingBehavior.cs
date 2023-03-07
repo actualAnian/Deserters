@@ -15,7 +15,7 @@ namespace Deserters
             public override void RegisterEvents()
             {
                 CampaignEvents.AiHourlyTickEvent.AddNonSerializedListener(this, new Action<MobileParty, PartyThinkParams>(this.AiHourlyTick));
-            CampaignEvents.OnPartyRemovedEvent.AddNonSerializedListener(this, new Action<PartyBase>(this.RemovePartyFromDict));
+                CampaignEvents.OnPartyRemovedEvent.AddNonSerializedListener(this, new Action<PartyBase>(this.RemovePartyFromDict));
             }
 
         private void RemovePartyFromDict(PartyBase party)
@@ -39,7 +39,7 @@ namespace Deserters
 
                 AIBehaviorTuple item;
                 //ValueTuple<AIBehaviorTuple, float> valueTuple;
-
+            
 
             string DesertersID = mobileParty.Party.Id;
             if (!hoursSincelastDecision.ContainsKey(DesertersID))

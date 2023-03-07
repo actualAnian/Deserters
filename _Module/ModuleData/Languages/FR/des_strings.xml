@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+    <tags>
+        <tag language="Français" />
+    </tags>
+    <strings>
+
+        <string id="des_general_settings" text="Options générales des déserteurs" />
+        <string id="des_troop_quality_settings" text="Options qualité des troupes d'un groupe de déserteurs" />
+        <string id="des_miscellaneous_settings" text="Divers" />
+
+        <string id="des_max_parties" text="Groupes max" />
+        <string id="des_max_parties_desc" text="Nombre maximum de groupes de déserteurs dans le monde" />
+        <string id="des_min_troop_count" text="Taille d'un groupe minimum" />
+        <string id="des_min_troop_count_desc" text="Nombre minimum de troupes dans un groupe de déserteurs" />
+        <string id="des_max_troop_count" text="Taille d'un groupe maximum"/>
+        <string id="des_max_troop_count_desc" text="Nombre maximum de troupes dans un groupe de déserteurs"/>
+
+        <string id="des_likelihood_tier0" text="Probabilité niveau 0" />
+        <string id="des_likelihood_tier0_desc" text="Probabilité qu'une troupe de niveau 0 finisse dans un groupe de déserteurs" />
+        <string id="des_likelihood_tier1" text="Probabilité niveau 1" />
+        <string id="des_likelihood_tier1_desc" text="Probabilité qu'une troupe de niveau 1 finisse dans un groupe de déserteurs" />
+        <string id="des_likelihood_tier2" text="Probabilité niveau 2" />
+        <string id="des_likelihood_tier2_desc" text="Probabilité qu'une troupe de niveau 2 finisse dans un groupe de déserteurs" />
+        <string id="des_likelihood_tier3" text="Probabilité niveau 3" />
+        <string id="des_likelihood_tier3_desc" text="Probabilité qu'une troupe de niveau 3 finisse dans un groupe de déserteurs" />
+        <string id="des_likelihood_tier4" text="Probabilité niveau 4" />
+        <string id="des_likelihood_tier4_desc" text="Probabilité qu'une troupe de niveau 4 finisse dans un groupe de déserteurs" />
+        <string id="des_likelihood_tier5" text="Probabilité niveau 5" />
+        <string id="des_likelihood_tier5_desc" text="Probabilité qu'une troupe de niveau 5 finisse dans un groupe de déserteurs" />
+        <string id="des_likelihood_tier6" text="Probabilité niveau 6" />
+        <string id="des_likelihood_tier6_desc" text="Probabilité qu'une troupe de niveau 6 finisse dans un groupe de déserteurs" />
+        <string id="des_likelihood_tier_other" text="Probabilité autres niveaux" />
+        <string id="des_likelihood_tier_other_desc" text="Probabilité qu'une troupe d'un autre niveau finisse dans un groupe de déserteurs" />
+        <string id="des_display_messages" text="Afficher les messages de debug" />
+        <string id="des_display_messages_desc" text="Crée un message indiquant le lieu de la création d'un nouveau groupe de déserteurs ou de la destruction d'un groupe de déserteurs"/>
+
+        <string id="des_nuke" text="Nuke!"/>
+        <string id="des_nuke_desc" text="Détruis tous les groupes de déserteurs" />
+
+        <string id="des_debug_party_created" text="Nouveau groupe de déserteurs crée à ce lieu" />
+        <string id="des_debug_party_removed" text="Groupe de déserteurs détruit à ce lieu" />
+        <string id="des_debug_total_parties" text="Nombre de groupes actuel" />
+
+        <string id="des_nuke_not_in_campaign" text="ERREUR, les groupes de déserteurs n'ont pas pu être détruits, chargez une partie sauvegardée" />
+        <string id="des_nuke_successful" text="Les groupes de déserteurs ont été détruits" />
+        <string id="des_nuke_failed" text="ERREUR, les groupes de déserteurs n'ont pas pu tous être détruits" />
+    </strings>
+</base>

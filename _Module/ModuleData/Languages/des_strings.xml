@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+    <tags>
+        <tag language="English"/>
+    </tags>
+    <strings>
+
+        <string id="des_general_settings" text="General deserter settings" />
+        <string id="des_troop_quality_settings" text="Deserter parties quality of troop settings" />
+        <string id="des_miscellaneous_settings" text="Miscellaneous" />
+
+        <string id="des_max_parties" text="Max Parties" />
+        <string id="des_max_parties_desc" text="Maximum number of deserter parties that can roam the world" />
+        <string id="des_min_troop_count" text="Minimum Party Size" />
+        <string id="des_min_troop_count_desc" text="Minimum troop count of a deserter party" />
+        <string id="des_max_troop_count" text="Maximum Party Size"/>
+        <string id="des_max_troop_count_desc" text="Maximum troop count of a deserter party"/>
+
+        <string id="des_likelihood_tier0" text="Tier 0 Likelihood" />
+        <string id="des_likelihood_tier0_desc" text="Chance that a tier 0 troop will end up in a deserter party" />
+        <string id="des_likelihood_tier1" text="Tier 1 Likelihood" />
+        <string id="des_likelihood_tier1_desc" text="Chance that a tier 1 troop will end up in a deserter party" />
+        <string id="des_likelihood_tier2" text="Tier 2 Likelihood" />
+        <string id="des_likelihood_tier2_desc" text="Chance that a tier 2 troop will end up in a deserter party" />
+        <string id="des_likelihood_tier3" text="Tier 3 Likelihood" />
+        <string id="des_likelihood_tier3_desc" text="Chance that a tier 3 troop will end up in a deserter party" />
+        <string id="des_likelihood_tier4" text="Tier 4 Likelihood" />
+        <string id="des_likelihood_tier4_desc" text="Chance that a tier 4 troop will end up in a deserter party" />
+        <string id="des_likelihood_tier5" text="Tier 5 Likelihood" />
+        <string id="des_likelihood_tier5_desc" text="Chance that a tier 5 troop will end up in a deserter party" />
+        <string id="des_likelihood_tier6" text="Tier 6 Likelihood" />
+        <string id="des_likelihood_tier6_desc" text="Chance that a tier 6 troop will end up in a deserter party" />
+        <string id="des_likelihood_tier_other" text="Other Tier Likelihood" />
+        <string id="des_likelihood_tier_other_desc" text="Chance that other tier troop will end up in a deserter party" />
+
+        <string id="des_display_messages" text="Display debug messages" />
+        <string id="des_display_messages_desc" text="Will create a message disclosing the location of a newly created or destroyed deserters party"/>
+
+        <string id="des_nuke" text="Nuke!"/>
+        <string id="des_nuke_desc" text="Remove all deserter parties" />
+
+        <string id="des_debug_party_created" text="New deserters party created at" />
+        <string id="des_debug_party_removed" text="Deserters party destroyed at" />
+        <string id="des_debug_total_parties" text="Current NO parties" />
+
+        <string id="des_nuke_not_in_campaign" text="ERROR, couldn't complete the nuke, load a save game first" />
+        <string id="des_nuke_successful" text="Succesfully removed all deserter parties!" />
+        <string id="des_nuke_failed" text="ERROR, couldn't remove all parties" />
+
+    </strings>
+</base>

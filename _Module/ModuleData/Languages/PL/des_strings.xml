@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+    <tags>
+        <tag language="Polski" />
+    </tags>
+    <strings>
+
+        <string id="des_general_settings" text="Ustawienia główne" />
+        <string id="des_troop_quality_settings" text="Ustawienia jakości jednostek w kompaniach deserterów" />
+        <string id="des_miscellaneous_settings" text="Ustawienia Dodatkowe" />
+
+        <string id="des_max_parties" text="Maksymalna ilość kompanii dezerterów" />
+        <string id="des_max_parties_desc" text="Maksymalna możliwa liczba równocześnie istniejących kompanii dezerterów" />
+        <string id="des_min_troop_count" text= "Minimalna wielkość dezerterów"/>
+        <string id="des_min_troop_count_desc" text="Minimalna liczba jednostek w kompanii dezerterów" />
+        <string id="des_max_troop_count" text="Maksymalna wielkość dezerterów"/>
+        <string id="des_max_troop_count_desc" text="Maksymalna liczba jednostek w kompanii dezerterów"/>
+
+        <string id="des_likelihood_tier0" text="Szansa dla poziomu 0" />
+        <string id="des_likelihood_tier0_desc" text="Prawdopodobieństwo iż jednostka z poziomu 0 znajdzie się w kompanii dezerterów" />
+        <string id="des_likelihood_tier1" text="Szansa dla poziomu 1" />
+        <string id="des_likelihood_tier1_desc" text="Prawdopodobieństwo iż jednostka z poziomu 1 znajdzie się w kompanii dezerterów" />
+        <string id="des_likelihood_tier2" text="Szansa dla poziomu 2" />
+        <string id="des_likelihood_tier2_desc" text="Prawdopodobieństwo iż jednostka z poziomu 2 znajdzie się w kompanii dezerterów" />
+        <string id="des_likelihood_tier3" text="Szansa dla poziomu 3" />
+        <string id="des_likelihood_tier3_desc" text="Prawdopodobieństwo iż jednostka z poziomu 3 znajdzie się w kompanii dezerterów" />
+        <string id="des_likelihood_tier4" text="Szansa dla poziomu 4" />
+        <string id="des_likelihood_tier4_desc" text="Prawdopodobieństwo iż jednostka z poziomu 4 znajdzie się w kompanii dezerterów" />
+        <string id="des_likelihood_tier5" text="Szansa dla poziomu 5" />
+        <string id="des_likelihood_tier5_desc" text="Prawdopodobieństwo iż jednostka z poziomu 5 znajdzie się w kompanii dezerterów" />
+        <string id="des_likelihood_tier6" text="Szansa dla poziomu 6" />
+        <string id="des_likelihood_tier6_desc" text="Prawdopodobieństwo iż jednostka z poziomu 6 znajdzie się w kompanii dezerterów" />
+        <string id="des_likelihood_tier_other" text="Szansa dla pozostałych poziomów" />
+        <string id="des_likelihood_tier_other_desc" text="Prawdopodobieństwo iż jednostka z innego poziomu znajdzie się w kompanii dezerterów" />
+
+        <string id="des_display_messages" text="Wyświetlaj komunikaty" />
+        <string id="des_display_messages_desc" text="Tworzy komunikaty z informacją o pozycji na mapie nowo stworzonej tudzież nowo zniszczonej kompanii dezerterów" />
+
+        <string id="des_nuke" text="Zresetuj"/>
+        <string id="des_nuke_desc" text="Usuń wszystkie kompanie dezerterów" />
+
+        <string id="des_debug_party_created" text="Nowa kompania dezerterów została stworzona przy" />
+        <string id="des_debug_party_removed" text="Kompania dezerterów została zniszczona przy" />
+        <string id="des_debug_total_parties" text="Aktualna liczba kompanii" />
+
+        <string id="des_nuke_not_in_campaign" text="Błąd, nie udało się wykonać resetu, Czy wczytałeś zapis?" />
+        <string id="des_nuke_successful" text="Pomyślnie usunięto wszystkich dezerterów!" />
+        <string id="des_nuke_failed" text="BŁĄD, nie udało się usunąć wszystkich dezerterów" />
+
+
+    </strings>
+</base>

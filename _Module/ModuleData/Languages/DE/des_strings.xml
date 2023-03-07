@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+    <tags>
+        <tag language="Deutsch"/>
+    </tags>
+    <strings>
+
+        <string id="des_general_settings" text="Deserteure Haupteinstellung" />
+        <string id="des_troop_quality_settings" text="Deserteure truppequalität Einstellung" />
+        <string id="des_miscellaneous_settings" text="Verschiedene Einstellung" />
+
+        <string id="des_max_parties" text="Maximale Truppen" />
+        <string id="des_max_parties_desc" text="Maximale Deserteurentruppen, die durch die Welt umherziehen" />
+        <string id="des_min_troop_count" text="Minimale Truppengröße" />
+        <string id="des_min_troop_count_desc" text="Maximale Soldatenanzahl in einer Truppe" />
+        <string id="des_max_troop_count" text="Maximale Truppengröße"/>
+        <string id="des_max_troop_count_desc" text="Minimale Soldatenanzahl, in einer Truppe"/>
+
+        <string id="des_likelihood_tier0" text="Die chance für Rang 0 Soldaten" />
+        <string id="des_likelihood_tier0_desc" text="Die Chance, dass Rang 0 Soldat zu Deserteurentruppen dazustoßt" />
+        <string id="des_likelihood_tier1" text="Die chance für Rang 1 Soldaten" />
+        <string id="des_likelihood_tier1_desc" text="Die Chance, dass Rang 1 Soldat zu Deserteurentruppen dazustoßt" />
+        <string id="des_likelihood_tier2" text="Die chance für Rang 2 Soldaten" />
+        <string id="des_likelihood_tier2_desc" text="Die Chance, dass Rang 2 Soldat zu Deserteurentruppen dazustoßt" />
+        <string id="des_likelihood_tier3" text="Die chance für Rang 3 Soldaten" />
+        <string id="des_likelihood_tier3_desc" text="Die Chance, dass Rang 3 Soldat zu Deserteurentruppen dazustoßt" />
+        <string id="des_likelihood_tier4" text="Die chance für Rang 4 Soldaten" />
+        <string id="des_likelihood_tier4_desc" text="Die Chance, dass Rang 4 Soldat zu Deserteurentruppen dazustoßt" />
+        <string id="des_likelihood_tier5" text="Die chance für Rang 5 Soldaten" />
+        <string id="des_likelihood_tier5_desc" text="Die Chance, dass Rang 5 Soldat zu Deserteurentruppen dazustoßt" />
+        <string id="des_likelihood_tier6" text="Die chance für Rang 6 Soldaten" />
+        <string id="des_likelihood_tier6_desc" text="Die Chance, dass Rang 6 Soldat zu Deserteurentruppen dazustoßt" />
+        <string id="des_likelihood_tier_other" text="Andere Range Chancen" />
+        <string id="des_likelihood_tier_other_desc" text="Die Chance, dass andere Rang Soldaten zu Deserteurentruppen dazustoßen" />
+
+        <string id="des_display_messages" text="Zeige debug Meldungen" />
+        <string id="des_display_messages_desc" text="Zeigt Meldungen, mit Information über die Ortung der neuen gebildeten oder zerstörten Truppen" />
+
+        <string id="des_nuke" text="Nuke!"/>
+        <string id="des_nuke_desc" text="Entferne alle Deserteurentruppen" />
+
+        <string id="des_debug_party_created" text="Neue Deserteurentruppen erschaffen um" />
+        <string id="des_debug_party_removed" text="Deserteurentruppen zerstören um" />
+        <string id="des_debug_total_parties" text="Aktuelle Deserteurentruppen" />
+
+        <string id="des_nuke_not_in_campaign" text="FEHLER, das Deserteurentruppenlöschen war nicht erfolgreich, Laden sie ein " />
+        <string id="des_nuke_successful" text="Das Deserteurentruppenlöschen war erfolgreich!" />
+        <string id="des_nuke_failed" text="FEHLER, das Deserteurentruppenlöschen war nicht erfolgreich" />
+
+    </strings>
+</base>
