@@ -9,7 +9,6 @@ using TaleWorlds.LinQuick;
 
 namespace Deserters.Patches
 {
-    [HarmonyDebug]
     [HarmonyPatch(typeof(AiBanditPatrollingBehavior), "AiHourlyTick")]
     public static class AiBanditPatrollingBehaviornAiHourlyTickPatch
     {

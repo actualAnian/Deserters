@@ -39,7 +39,6 @@ namespace Deserters.RosterBehaviorPatches
             }
         }
     }
-    [HarmonyDebug]
     [HarmonyPatch(typeof(PartyBase), "PartySizeLimit", MethodType.Getter)]
     internal class GetPartySizeLimitPatch
     {
