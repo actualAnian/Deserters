@@ -10,8 +10,7 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
-
-
+using TaleWorlds.Localization;
 
 namespace Deserters
 {
@@ -19,10 +18,10 @@ namespace Deserters
     {
         private int _currentNoDeserterParties = 0;
 
-        private static TroopRoster _desertedTroops = TroopRoster.CreateDummyTroopRoster();
+        internal static TroopRoster _desertedTroops = TroopRoster.CreateDummyTroopRoster();
         private static int _nextRandomizedTroopNumber = MBRandom.RandomInt(
-                MathF.Min(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize),
-                MathF.Max(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize));
+                                MathF.Min(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize),
+                                MathF.Max(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize));
         public static int ChangeTotalSizeLimitIfDeserters(PartyBase party)
         {
             if (party.IsDeserterParty())
@@ -36,19 +35,29 @@ namespace Deserters
         {
             CampaignEvents.OnTroopsDesertedEvent.AddNonSerializedListener(this, new Action<MobileParty, TroopRoster>(OnTroopsDeserted));
             CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, SpawnDesertersIfPossible);
-            CampaignEvents.OnPartyRemovedEvent.AddNonSerializedListener(this, new Action<PartyBase>(DecrementDesertersCounter));
+            CampaignEvents.OnPartyRemovedEvent.AddNonSerializedListener(this, new Action<PartyBase>(OnPartyRemovedEvent));
         }
 
-        private void DecrementDesertersCounter(PartyBase party)
+        private void OnPartyRemovedEvent(PartyBase party)
         {
-            if (party.IsDeserterParty() && _currentNoDeserterParties > 0) --_currentNoDeserterParties;
+            if (party.IsDeserterParty() && _currentNoDeserterParties > 0)
+            {
+                --_currentNoDeserterParties;
+                if (Settings.Instance.DisplayMessages)
+                {
+                    TextObject strRemovedParty = new("{=des_debug_party_removed}Deserters party destroyed at");
+                    TextObject totalParties = new("{=des_debug_total_parties}Current NO parties");
+                    MBInformationManager.AddQuickInformation(new TextObject($"{strRemovedParty} X:{party.Position2D.X} Y:{party.Position2D.Y}. {totalParties}: {_currentNoDeserterParties}"));
+                }
+            }
         }
 
-        public void OnTroopsDeserted(MobileParty mobileParty, TroopRoster newlyDesertedTroops)
+        public static void OnTroopsDeserted(MobileParty mobileParty, TroopRoster newlyDesertedTroops)
         {
             if (_desertedTroops.TotalManCount >= _nextRandomizedTroopNumber) return;
             foreach (TroopRosterElement troopType in newlyDesertedTroops.GetTroopRoster())
             {
+                if (troopType.Character == null || troopType.Character.HeroObject != null) continue;
                 int troopsToRemove = CalculateNoTroopsToRemove(troopType.Character, troopType.Number);
                 newlyDesertedTroops.RemoveTroop(troopType.Character, troopsToRemove);
             }
@@ -56,14 +65,14 @@ namespace Deserters
         }
         public static void OnTroopsDeserted(CharacterObject character)
         {
-            if (_desertedTroops.TotalManCount >= _nextRandomizedTroopNumber) return;
+            if (_desertedTroops.TotalManCount >= _nextRandomizedTroopNumber || character.HeroObject != null) return;
             int troopsToRemove = CalculateNoTroopsToRemove(character, 1);
             _desertedTroops.AddToCounts(character, 1 - troopsToRemove, false, 0, 0, true, -1);
         }
         public static int CalculateNoTroopsToRemove(CharacterObject troopType, int numberOfTroopsInArmy)
         {
             if (troopType == null) return 0;
-            float chanceToKeepTroop = 0;
+            float chanceToKeepTroop;
             int nOTroopsToRemove = 0;
             chanceToKeepTroop = troopType.Tier switch
             {
@@ -89,14 +98,13 @@ namespace Deserters
         }
         public void SpawnDesertersIfPossible()
         {
-            Clan _looterClan = Clan.All.WhereQ((Clan c) => c.StringId == "looters").Single();
-
             if (_currentNoDeserterParties >= Settings.Instance.MaxNumberOfDeserterParties) _desertedTroops = TroopRoster.CreateDummyTroopRoster();
             if (_desertedTroops.TotalManCount >= _nextRandomizedTroopNumber)
             {
+                Clan _looterClan = Clan.All.WhereQ((Clan c) => c.StringId == "looters").Single();
                 _nextRandomizedTroopNumber = MBRandom.RandomInt(
-                MathF.Min(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize),
-                MathF.Max(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize));
+                    MathF.Min(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize),
+                    MathF.Max(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize));
 
                 IEnumerable<Hideout> infestedHideouts = Hideout.All.WhereQ((Hideout h) => h.IsInfested);
                 if (!infestedHideouts.Any()) return;
@@ -147,6 +155,12 @@ namespace Deserters
                     desertersParty.Aggressiveness = 1f - 0.2f * MBRandom.RandomFloat;
                     desertersParty.Ai.SetMovePatrolAroundPoint(randomHideout.Settlement.Position2D);
                     ++_currentNoDeserterParties;
+                    if(Settings.Instance.DisplayMessages)
+                    {
+                        TextObject strNewParty = new("{=des_debug_party_created}New deserters party created at");
+                        TextObject totalParties = new("{=des_debug_total_parties}Current NO parties");
+                        MBInformationManager.AddQuickInformation(new TextObject($"{strNewParty} X:{desertersParty.Position2D.X} Y:{desertersParty.Position2D.Y}. {totalParties}: {_currentNoDeserterParties}"));
+                    }
                 }
             }
         }

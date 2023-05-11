@@ -23,14 +23,14 @@ namespace Deserters.RosterBehaviorPatches
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var method_prisonroster = AccessTools.Method(typeof(TroopRoster), nameof(TroopRoster.AddToCounts));
+            var method_prisonroster = AccessTools.Method("TaleWorlds.CampaignSystem.Roster.TroopRoster:AddToCounts");
             foreach(var instruction in instructions)
             {
                 if(instruction.opcode == OpCodes.Callvirt && instruction.operand == method_prisonroster)
                 {
                     yield return instruction;
                     yield return new CodeInstruction(OpCodes.Ldarg_1);
-                    yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(DesertersRosterBehavior), nameof(DesertersRosterBehavior.OnTroopsDeserted), new Type[] { typeof(CharacterObject) }));
+                    yield return new CodeInstruction(OpCodes.Call, AccessTools.Method("Deserters.DesertersRosterBehavior:OnTroopsDeserted", new Type[] { typeof(CharacterObject) }));
                 }
                 else
                 {
@@ -47,8 +47,8 @@ namespace Deserters.RosterBehaviorPatches
             int insertion = 0;
             Label jumpLabel = ilgenerator.DefineLabel();
 
-            var field_partyMemberSizeLastCheckVersion = AccessTools.Field(typeof(PartyBase), "_partyMemberSizeLastCheckVersion");
-            var field_cachedPartyMemberSizeLimit = AccessTools.Field(typeof(PartyBase), "_cachedPartyMemberSizeLimit");
+            var field_partyMemberSizeLastCheckVersion = AccessTools.Field("TaleWorlds.CampaignSystem.Party.PartyBase:_partyMemberSizeLastCheckVersion");
+            var field_cachedPartyMemberSizeLimit = AccessTools.Field("TaleWorlds.CampaignSystem.Party.PartyBase:_cachedPartyMemberSizeLimit");
             List<CodeInstruction> codes = instructions.ToListQ<CodeInstruction>();
 
             codes[0].labels.Add(jumpLabel);
@@ -56,7 +56,7 @@ namespace Deserters.RosterBehaviorPatches
             {
                 new CodeInstruction(OpCodes.Ldarg_0, null),
                 new CodeInstruction(OpCodes.Ldarg_0, null),
-                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(DesertersRosterBehavior), nameof(DesertersRosterBehavior.ChangeTotalSizeLimitIfDeserters))),
+                new CodeInstruction(OpCodes.Call, AccessTools.Method("Deserters.DesertersRosterBehavior:ChangeTotalSizeLimitIfDeserters")),
                 new CodeInstruction(OpCodes.Stfld, field_cachedPartyMemberSizeLimit),
                 new CodeInstruction(OpCodes.Ldarg_0, null),
                 new CodeInstruction(OpCodes.Ldfld, field_cachedPartyMemberSizeLimit),
