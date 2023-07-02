@@ -136,7 +136,7 @@ namespace Deserters
                     {
                         desertersParty.Position2D = vec;
                     }
-                    desertersParty.Party.Visuals.SetMapIconAsDirty();
+                    desertersParty.Party.SetVisualAsDirty();
                     desertersParty.ActualClan = _looterClan;
                     int initialGold = (int)(10f * (float)desertersParty.Party.MemberRoster.TotalManCount * (0.5f + 1f * MBRandom.RandomFloat));
                     desertersParty.InitializePartyTrade(initialGold);

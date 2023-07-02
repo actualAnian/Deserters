@@ -11,7 +11,7 @@ namespace Deserters
         {
             get
             {
-                TextObject textObject = new("Deserters");
+                TextObject textObject = new("{=des_deserters_party}Deserters");
                 textObject.SetTextVariable("IS_BANDIT", 1);
                 return textObject;
             }

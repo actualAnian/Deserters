@@ -6,7 +6,7 @@ using TaleWorlds.MountAndBlade;
 
 namespace Deserters
 {
-    public partial class SubModule : MBSubModuleBase
+    public class SubModule : MBSubModuleBase
     {
 
         protected override void OnSubModuleLoad()
