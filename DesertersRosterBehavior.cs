@@ -159,7 +159,8 @@ namespace Deserters
                                 }
                             }
                         }
-                        AddHorses(desertersParty);
+                        if (Settings.Instance.AddHorsesToDeserterParties)
+                            AddHorses(desertersParty);
                         desertersParty.Aggressiveness = 1f - 0.2f * MBRandom.RandomFloat;
                         desertersParty.Ai.SetMovePatrolAroundPoint(randomHideout.Settlement.Position2D);
                         ++_currentNoDeserterParties;
@@ -192,7 +193,7 @@ namespace Deserters
             {
                 float speed_before = mobileParty.Speed;
                 CultureObject culture = GetClosestSettlementsCulture(mobileParty.Position2D);
-                int horsesToAdd = MathF.Round(0.8 * mobileParty.MemberRoster.TotalManCount) - CountMounted(mobileParty.MemberRoster) - mobileParty.ItemRoster.NumberOfMounts;
+                int horsesToAdd = MathF.Round(0.6 * mobileParty.MemberRoster.TotalManCount) - CountMounted(mobileParty.MemberRoster) - mobileParty.ItemRoster.NumberOfMounts;
 
                 List<ItemObject> list = new List<ItemObject>();
                 foreach (ItemObject itemObject in Items.All)
