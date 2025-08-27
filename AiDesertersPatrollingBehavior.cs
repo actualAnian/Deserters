@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
-using static TaleWorlds.GauntletUI.BrushAnimationKeyFrame;
 
 namespace Deserters
 {
@@ -26,53 +25,51 @@ namespace Deserters
         }
 
         private void AiHourlyTick(MobileParty mobileParty, PartyThinkParams p)
+        {
+            if (mobileParty.Party == null || !mobileParty.IsDeserterParty()) return;
+
+            if (mobileParty.MapFaction.Culture.CanHaveSettlement && (mobileParty.Ai.NeedTargetReset || (mobileParty.HomeSettlement.IsHideout && !mobileParty.HomeSettlement.Hideout.IsInfested)))
             {
-                if (mobileParty.Party == null || !mobileParty.IsDeserterParty()) return;
-
-                if (mobileParty.MapFaction.Culture.CanHaveSettlement && (mobileParty.Ai.NeedTargetReset || (mobileParty.HomeSettlement.IsHideout && !mobileParty.HomeSettlement.Hideout.IsInfested)))
+                Settlement? settlement = SettlementHelper.FindNearestHideout(null, null);
+                if (settlement != null && settlement.Hideout != null)
                 {
-                    Settlement settlement = SettlementHelper.FindNearestHideout(null, null);
-                    if (settlement != null)
-                    {
-                        mobileParty.BanditPartyComponent.SetHomeHideout(settlement.Hideout);
-                    }
+                    mobileParty.BanditPartyComponent.SetHomeHideout(settlement.Hideout);
                 }
-
-                AIBehaviorTuple item;
-                ValueTuple<AIBehaviorTuple, float> valueTuple;
-            
+            }
+            AIBehaviorTuple item;
+            ValueTuple<AIBehaviorTuple, float> valueTuple;
 
             string DesertersID = mobileParty.Party.Id;
             if (!hoursSincelastDecision.ContainsKey(DesertersID))
                 hoursSincelastDecision[DesertersID] = 0;
 
             if (hoursSincelastDecision[DesertersID] != 0 && hoursSincelastDecision[DesertersID] % HoursBeforeChoosingNewPatrolVillage == 0 && mobileParty.TargetSettlement != null)
+            {
+                hoursSincelastDecision[DesertersID] = 0;
+                Settlement nextSettlementToPatrol = SettlementHelper.FindNearestVillage((Settlement s) =>
                 {
-                    hoursSincelastDecision[DesertersID] = 0;
-                    Settlement nextSettlementToPatrol = SettlementHelper.FindNearestVillage((Settlement s) =>
-                    {
-                        if (s.Id == mobileParty.TargetSettlement.Id) return false;
-                        else return true;
-                    }, mobileParty);
+                    if (s.Id == mobileParty.TargetSettlement.Id) return false;
+                    else return true;
+                }, mobileParty);
 
-                    if(nextSettlementToPatrol != null)
-                    {
-                        item = new AIBehaviorTuple(nextSettlementToPatrol, AiBehavior.PatrolAroundPoint, false);
-                        valueTuple = new ValueTuple<AIBehaviorTuple, float>(item, 0.3f);
-                        p.AddBehaviorScore(valueTuple);
-                        ++hoursSincelastDecision[DesertersID];
-                        return;
-                    }
+                if(nextSettlementToPatrol != null)
+                {
+                    item = new AIBehaviorTuple(nextSettlementToPatrol, AiBehavior.PatrolAroundPoint, false);
+                    valueTuple = new ValueTuple<AIBehaviorTuple, float>(item, 0.3f);
+                    p.AddBehaviorScore(valueTuple);
+                    ++hoursSincelastDecision[DesertersID];
+                    return;
                 }
-                Settlement patrolSettlement = mobileParty.TargetSettlement ?? mobileParty.HomeSettlement;
-                item = new AIBehaviorTuple(patrolSettlement, AiBehavior.PatrolAroundPoint, false);
-                valueTuple = new ValueTuple<AIBehaviorTuple, float>(item, 0.3f);
-                p.AddBehaviorScore(valueTuple);
-                ++hoursSincelastDecision[DesertersID];
             }
+            Settlement patrolSettlement = mobileParty.TargetSettlement ?? mobileParty.HomeSettlement;
+            item = new AIBehaviorTuple(patrolSettlement, AiBehavior.PatrolAroundPoint, false);
+            valueTuple = new ValueTuple<AIBehaviorTuple, float>(item, 0.3f);
+            p.AddBehaviorScore(valueTuple);
+            ++hoursSincelastDecision[DesertersID];
+        }
             public override void SyncData(IDataStore dataStore)
             {
-            dataStore.SyncData("hours_since_decision_dict", ref hoursSincelastDecision);
+                dataStore.SyncData("hours_since_decision_dict", ref hoursSincelastDecision);
             }
         }
 }

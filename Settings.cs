@@ -37,6 +37,7 @@ namespace Deserters
         public float ChanceToKeepTroopOther { get; set; } = 1f;
 
         public bool DisplayMessages { get; set; } = false;
+        public bool AddHorsesToDeserterParties { get; set; } = false;
 
 
         public ISettingsBuilder RegisterSettings()
@@ -70,7 +71,8 @@ namespace Deserters
                     .SetPropertyValue("chance_keep_tier6_troop", Settings.Instance.ChanceToKeepTier6Troop)
                     .SetPropertyValue("chance_keep_troop_other", Settings.Instance.ChanceToKeepTroopOther)
                     
-                    .SetPropertyValue("display_messages", Settings.Instance.DisplayMessages);
+                    .SetPropertyValue("display_messages", Settings.Instance.DisplayMessages)
+                    .SetPropertyValue("add_horses", Settings.Instance.AddHorsesToDeserterParties);
 
             void BuildGeneralDeserterSettings(ISettingsPropertyGroupBuilder builder)
                 => builder
@@ -182,12 +184,17 @@ namespace Deserters
             void BuildOtherSettings(ISettingsPropertyGroupBuilder builder)
             => builder
                     .AddBool("display_messages",
-                            "{=des_display_messages}display debug messages",
+                            "{=des_display_messages}Display debug messages",
                             new ProxyRef<bool>(() => Settings.Instance.DisplayMessages, value => Settings.Instance.DisplayMessages = value),
                             propBuilder => propBuilder.SetRequireRestart(false)
                             .SetHintText("{=des_display_messages_desc}Will create a message disclosing the location of a newly created or destroyed deserters party")
                             .SetOrder(order++))
-
+                    .AddBool("add_horses",
+                        "{=des_add_horses}Add horses to deserters",
+                        new ProxyRef<bool>(() => Settings.Instance.AddHorsesToDeserterParties, value => Settings.Instance.AddHorsesToDeserterParties = value),
+                        propBuilder => propBuilder.SetRequireRestart(false)
+                        .SetHintText("{=des_add_horses_desc}Makes sure at least 60% of the party is mounted / has horses, to increase their speed on campaign map")
+                        .SetOrder(order++))
 
                     .AddButton("nuke",
                                "{=des_nuke_desc}Remove all deserter parties",

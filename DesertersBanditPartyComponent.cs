@@ -6,7 +6,6 @@ namespace Deserters
 {
     public class DesertersBanditPartyComponent : BanditPartyComponent
     {
-
         public override TextObject Name
         {
             get
@@ -16,7 +15,6 @@ namespace Deserters
                 return textObject;
             }
         }
-
         protected internal DesertersBanditPartyComponent(Hideout hideout, bool isBossParty) : base(hideout, isBossParty) {}
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Helpers;
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
 using TaleWorlds.Localization;
+using TaleWorlds.ObjectSystem;
 
 namespace Deserters
 {
@@ -98,71 +100,133 @@ namespace Deserters
         }
         public void SpawnDesertersIfPossible()
         {
-            if (_currentNoDeserterParties >= Settings.Instance.MaxNumberOfDeserterParties) _desertedTroops = TroopRoster.CreateDummyTroopRoster();
-            if (_desertedTroops.TotalManCount >= _nextRandomizedTroopNumber)
+            MobileParty? desertersParty = default;
+            try
             {
-                Clan _looterClan = Clan.All.WhereQ((Clan c) => c.StringId == "looters").Single();
-                _nextRandomizedTroopNumber = MBRandom.RandomInt(
-                    MathF.Min(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize),
-                    MathF.Max(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize));
-
-                IEnumerable<Hideout> infestedHideouts = Hideout.All.WhereQ((Hideout h) => h.IsInfested);
-                if (!infestedHideouts.Any()) return;
-                Hideout randomHideout = infestedHideouts.ElementAt(MBRandom.RandomInt(0, infestedHideouts.Count()));
-                MobileParty desertersParty = MobileParty.CreateParty("Deserters", new DesertersBanditPartyComponent(randomHideout, false), delegate (MobileParty mobileParty)
-            {
-                mobileParty.ActualClan = _looterClan;
-            });
-
-                if (randomHideout != null)
+                if (_currentNoDeserterParties >= Settings.Instance.MaxNumberOfDeserterParties) _desertedTroops = TroopRoster.CreateDummyTroopRoster();
+                if (_desertedTroops.TotalManCount >= _nextRandomizedTroopNumber)
                 {
-                    float num = 45f * 1.5f;
-                    TroopRoster troops = TroopRoster.CreateDummyTroopRoster();
-                    troops.Add(_desertedTroops);
-                    _desertedTroops = TroopRoster.CreateDummyTroopRoster();
-                    desertersParty.InitializeMobilePartyAtPosition(troops, TroopRoster.CreateDummyTroopRoster(), randomHideout.Settlement.GatePosition);
-                    Vec2 vec = desertersParty.Position2D;
-                    float radiusAroundPlayerPartySquared = 20;
-                    for (int i = 0; i < 15; i++)
+                    if (_desertedTroops.TotalHeroes != 0)
                     {
-                        Vec2 vec2 = MobilePartyHelper.FindReachablePointAroundPosition(vec, num, 0f);
-                        if (vec2.DistanceSquared(MobileParty.MainParty.Position2D) > radiusAroundPlayerPartySquared)
-                        {
-                            vec = vec2;
-                            break;
-                        }
                     }
-                    if (vec != desertersParty.Position2D)
+                    Clan _looterClan = Clan.All.WhereQ((Clan c) => c.StringId == "looters").Single();
+                    _nextRandomizedTroopNumber = MBRandom.RandomInt(
+                        MathF.Min(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize),
+                        MathF.Max(Settings.Instance.MinDesertersPartySize, Settings.Instance.MaxDesertersPartySize));
+
+                    IEnumerable<Hideout> infestedHideouts = Hideout.All.WhereQ((Hideout h) => h.IsInfested);
+                    if (!infestedHideouts.Any()) return;
+                    Hideout randomHideout = infestedHideouts.ElementAt(MBRandom.RandomInt(0, infestedHideouts.Count()));
+                    desertersParty = MobileParty.CreateParty("Deserters", new DesertersBanditPartyComponent(randomHideout, false), delegate (MobileParty mobileParty)
                     {
-                        desertersParty.Position2D = vec;
-                    }
-                    desertersParty.Party.SetVisualAsDirty();
-                    desertersParty.ActualClan = _looterClan;
-                    int initialGold = (int)(10f * (float)desertersParty.Party.MemberRoster.TotalManCount * (0.5f + 1f * MBRandom.RandomFloat));
-                    desertersParty.InitializePartyTrade(initialGold);
-                    foreach (ItemObject itemObject in Items.All)
+                        mobileParty.ActualClan = _looterClan;
+                    });
+                    if (randomHideout != null)
                     {
-                        if (itemObject.IsFood)
+                        float num = 45f * 1.5f;
+                        TroopRoster troops = TroopRoster.CreateDummyTroopRoster();
+                        troops.Add(_desertedTroops);
+                        _desertedTroops = TroopRoster.CreateDummyTroopRoster();
+                        desertersParty.InitializeMobilePartyAtPosition(troops, TroopRoster.CreateDummyTroopRoster(), randomHideout.Settlement.GatePosition);
+                        Vec2 vec = desertersParty.Position2D;
+                        float radiusAroundPlayerPartySquared = 20;
+                        for (int i = 0; i < 15; i++)
                         {
-                            int num3 = 8;
-                            int num2 = MBRandom.RoundRandomized((float)desertersParty.MemberRoster.TotalManCount * (1f / (float)itemObject.Value) * (float)num3 * MBRandom.RandomFloat * MBRandom.RandomFloat * MBRandom.RandomFloat * MBRandom.RandomFloat);
-                            if (num2 > 0)
+                            Vec2 vec2 = MobilePartyHelper.FindReachablePointAroundPosition(vec, num, 0f);
+                            if (vec2.DistanceSquared(MobileParty.MainParty.Position2D) > radiusAroundPlayerPartySquared)
                             {
-                                desertersParty.ItemRoster.AddToCounts(itemObject, num2);
+                                vec = vec2;
+                                break;
                             }
                         }
+                        if (vec != desertersParty.Position2D)
+                        {
+                            desertersParty.Position2D = vec;
+                        }
+                        desertersParty.Party.SetVisualAsDirty();
+                        desertersParty.ActualClan = _looterClan;
+                        int initialGold = (int)(10f * (float)desertersParty.Party.MemberRoster.TotalManCount * (0.5f + 1f * MBRandom.RandomFloat));
+                        desertersParty.InitializePartyTrade(initialGold);
+                        foreach (ItemObject itemObject in Items.All)
+                        {
+                            if (itemObject.IsFood)
+                            {
+                                int num3 = 8;
+                                int num2 = MBRandom.RoundRandomized((float)desertersParty.MemberRoster.TotalManCount * (1f / (float)itemObject.Value) * (float)num3 * MBRandom.RandomFloat * MBRandom.RandomFloat * MBRandom.RandomFloat * MBRandom.RandomFloat);
+                                if (num2 > 0)
+                                {
+                                    desertersParty.ItemRoster.AddToCounts(itemObject, num2);
+                                }
+                            }
+                        }
+                        if (Settings.Instance.AddHorsesToDeserterParties)
+                            AddHorses(desertersParty);
+                        desertersParty.Aggressiveness = 1f - 0.2f * MBRandom.RandomFloat;
+                        desertersParty.Ai.SetMovePatrolAroundPoint(randomHideout.Settlement.Position2D);
+                        ++_currentNoDeserterParties;
+                        if (Settings.Instance.DisplayMessages)
+                        {
+                            TextObject strNewParty = new("{=des_debug_party_created}New deserters party created at");
+                            TextObject totalParties = new("{=des_debug_total_parties}Current NO parties");
+                            MBInformationManager.AddQuickInformation(new TextObject($"{strNewParty} X:{desertersParty.Position2D.X} Y:{desertersParty.Position2D.Y}. {totalParties}: {_currentNoDeserterParties}"));
+                        }
                     }
-                    desertersParty.Aggressiveness = 1f - 0.2f * MBRandom.RandomFloat;
-                    desertersParty.Ai.SetMovePatrolAroundPoint(randomHideout.Settlement.Position2D);
-                    ++_currentNoDeserterParties;
-                    if(Settings.Instance.DisplayMessages)
-                    {
-                        TextObject strNewParty = new("{=des_debug_party_created}New deserters party created at");
-                        TextObject totalParties = new("{=des_debug_total_parties}Current NO parties");
-                        MBInformationManager.AddQuickInformation(new TextObject($"{strNewParty} X:{desertersParty.Position2D.X} Y:{desertersParty.Position2D.Y}. {totalParties}: {_currentNoDeserterParties}"));
-                    }
+
+                }
+            }
+            catch (Exception)
+            {
+                desertersParty?.RemoveParty();
+
+                if (Settings.Instance.DisplayMessages)
+                {
+                    InformationManager.DisplayMessage(new("Deserters mod, error spawning deserters"));
                 }
             }
         }
+
+
+        // to add horses
+        private static void AddHorses(MobileParty mobileParty)
+        {
+            try
+            {
+                float speed_before = mobileParty.Speed;
+                CultureObject culture = GetClosestSettlementsCulture(mobileParty.Position2D);
+                int horsesToAdd = MathF.Round(0.6 * mobileParty.MemberRoster.TotalManCount) - CountMounted(mobileParty.MemberRoster) - mobileParty.ItemRoster.NumberOfMounts;
+
+                List<ItemObject> list = new List<ItemObject>();
+                foreach (ItemObject itemObject in Items.All)
+                {
+                    if (itemObject.IsMountable && itemObject.Culture == culture && !itemObject.NotMerchandise && itemObject.Tier == ItemObject.ItemTiers.Tier1)
+                    {
+                        list.Add(itemObject);
+                    }
+                }
+                ItemObject horseType = list.GetRandomElement<ItemObject>();
+                if (horsesToAdd > 0 && list.Count != 0)
+                    mobileParty.ItemRoster.AddToCounts(horseType, horsesToAdd);
+                float speed_after = mobileParty.Speed;
+
+            }
+            catch (Exception ex) { return; }
+        }
+        public static int CountMounted(TroopRoster troopRoster)
+        {
+            return troopRoster.GetTroopRoster().WhereQ((TroopRosterElement t) => !t.Character.FirstBattleEquipment[10].IsEmpty).SumQ((TroopRosterElement t) => t.Number);
+        }
+
+        internal static CultureObject GetClosestSettlementsCulture(Vec2 position)
+        {
+            try
+            {
+                var a = Settlement.StartFindingLocatablesAroundPosition(position, 100f);
+                Settlement settlement = Settlement.FindNextLocatable(ref a);
+                return settlement.Culture;
+            }
+            catch (Exception) { return MBObjectManager.Instance.GetObject<CultureObject>("empire"); }
+        }
+
+        //
     }
 }
